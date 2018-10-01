@@ -3,7 +3,7 @@
 # a function of fratricidal strategy (A) and the sex ratio (proportion sons) of 
 # social nests (B). 
 
-source("D:/quinonesa/Dropbox/Haplodiploidy/Gil/Andres/SexRatiosHelpCode/SelecDiff_Evol.R")
+source("SelecDiff_Evol.R")
 
 # Plotting parameters
 lwd<-c(3,1.5)
@@ -11,8 +11,8 @@ colors1<-c("#e41a1c","#377eb8", "#4daf4a", "#984ea3")
 colBck<-rgb(0,0,0,10,maxColorValue=255)
 lty1<-c(1,2)
 
-pngdir<-"D:\\Users\\quinonesa\\Dropbox\\Haplodiploidy\\Gil\\Andres\\Evolution\\"
-png(paste(pngdir,"Figure_3_col.png"),width=1000,height=800)
+
+png("Figure_3_col.png",width=1000,height=800)
 
 # Panel A ----------------------------------------------------------------------
 

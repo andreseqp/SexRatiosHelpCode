@@ -417,8 +417,6 @@ void NextGeneration()
 
 int main(int argc, char* argv[])
 {
-    //char EvolFileName[40] = "";//"/data/p264680/Ovicide/paper/evol_";
-	//char DistFileName[40] = "";//"/data/p264680/Ovicide/paper/dist_";
 	phi = 0.7;//atof(argv[1]) / 10;
 	b   = 0.9;//atof(argv[2]) / 10;
 
@@ -426,19 +424,17 @@ int main(int argc, char* argv[])
 	{
 
 		Seed = i;//atoi(argv[3]);
-		char EvolFileName[100] = "D:\\quinonesa\\Dropbox\\Haplodiploidy\\Gil\\Andres\\IBD\\evol";
-		char DistFileName[100] = "D:\\quinonesa\\Dropbox\\Haplodiploidy\\Gil\\Andres\\IBD\\dist";
+		char EvolFileName[100] = "evol";
+		char DistFileName[100] = "dist";
 		char buffer[40];
 		sprintf(buffer, "%1i_seed_%02.0f_phi_%02.0f_b%", Seed, phi*10, b*10);
 		strcat(EvolFileName, buffer);
 		strcat(EvolFileName, ".txt");
 		EvolFile = fopen(EvolFileName, "w");
-		//sprintf(Buffer, "%1i_seed_%02.0f_phi_%02.0f_b%", Seed, phi * 10, b * 10);
 		strcat(DistFileName, buffer);
 		strcat(DistFileName, ".txt");
 		DistFile = fopen(DistFileName, "w");
-		/*strcat(EvolFileName,".txt");
-		strcat(DistFileName,".txt");*/
+
 		
 		
 

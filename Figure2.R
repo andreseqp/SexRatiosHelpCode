@@ -1,19 +1,21 @@
 # Figure 2 --------------------------------------------------------------------
 # Co-evolutionary dynamics of helping, fratricide and sex ratios. 
 
-source("D:/quinonesa/Dropbox/Haplodiploidy/Gil/Andres/SexRatiosHelpCode/SelecDiff_Evol.R")
+source("SelecDiff_Evol.R")
 
 # Directory with the IBS -------------------------------------------------------
-Simdir<-"D:\\quinonesa\\Dropbox\\Haplodiploidy\\Gil\\Andres\\IBD"
+Simdir<-getwd()
 
 
-png(paste(pngdir,"Figure_2_dynamics",Sys.Date(),".png",sep = ''),width=1000,height=800)
+png("Figure_2_dynamics.png",width=1000,height=800)
 
 
 parsize<-1.3
 labsize<-2.5
 
 # Panel B ----------------------------------------------------------------------
+
+pertTime<-5000
 
 parameters <- c(F1=5,Sm=0.8,Sf=0.8,b=0.9,K=0.005,phi=0.7)
 #Intitial conditions
@@ -24,7 +26,7 @@ times = seq(0,20000,by=10)
 eventdat = data.frame(var=c("h","omega"),time=c(1000,1000),
                       value=c(0.0002,0.0002),method=c("add"))
 # Perturb equilibria in the direction of IBS
-eventdat2 = data.frame(var=c("h","omega","z2","z3"),time=c(5000,5000,5000,5000),
+eventdat2 = data.frame(var=c("h","omega","z2","z3"),time=rep(pertTime,4),
                        value=c(0.0002,0.502,0.0,-0.2),method=c("add"))
 out = ode(y=state,times=times,func=Evolution,parms=parameters,
           events=list(data=eventdat2), method="lsode")

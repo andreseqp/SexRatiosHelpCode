@@ -2,9 +2,9 @@
 # Minimal level of recycling efficiency required for the evolution of fratricide
 # as a function of the sex ratio in social nests.
 
-source("D:/quinonesa/Dropbox/Haplodiploidy/Gil/Andres/SexRatiosHelpCode/SelecDiff_Evol.R")
+source("SelecDiff_Evol.R")
 
-png(filename = paste(pngdir,"fig5_col.png",sep=""),width = 765,height = 630)
+png(filename = "fig5_col.png",width = 765,height = 630)
 
 # Plotting parameters 
 lty1<-c(1,2)

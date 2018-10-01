@@ -3,7 +3,7 @@
 # Selection differentials ------------------------------------------------------
 
 library(deSolve)
-source('D:/quinonesa/Dropbox/R_files/posPlots.R')
+source('posPlots.R')
 
 diffz1<-function(b,param,z1,z2,z3,omega,h)
 {
