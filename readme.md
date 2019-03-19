@@ -22,10 +22,10 @@ replicates for the parameters chosen.
 
 Figure 2 in the manuscript shows dynamics of the deterministic model (numerical
 simulations), and stochastic simulations. The stochastic simulations are 
-represented by choosing representative. But, the details of the different runs 
+represented by choosing a representative run. But, the details of the different runs 
 differ from each other. Thus, to get a good fit between numerical an stochastic 
 simulations some parameters will have to be tweaked in the numerical 
-simulations too. in particular variable *pertTime* must be set the time in which 
+simulations too. In particular variable *pertTime* must be set the time in which 
 a transition from solitary to social life happen in the stochastic simulations. 
 A part from this change, running the file *Figure2.R* should produce figure 2 of 
 the manuscript. 
