@@ -1,12 +1,11 @@
-#Queen-worker conflict can drive the evolution of social 
-#polymorphism and split sex ratios
+# Queen-worker conflict can drive the evolution of social polymorphism and split sex ratios
 
 This repository provides the code to simulate the the co-evolution of helping
 behaviour, sex-ratios and fratricidal behaviour. The model is
 coded in c++ language. Visualization of the output is done in R. In this readme 
 we describe how to run the simulations and how to plot their outcome. 
 
-##Model simulations
+## Model simulations
 
 As stated before, code for the simulation model is written in C++ language. 
 The file contained at the base folder: random.h contain useful functions and 
@@ -18,7 +17,7 @@ be change prior to compilation. Execution of the program will produce the
 simulation files necessary plot the outcome. The program runs by default 10 
 replicates for the parameters chosen. 
 
-##Visualization
+## Visualization
 
 Figure 2 in the manuscript shows dynamics of the deterministic model (numerical
 simulations), and stochastic simulations. The stochastic simulations are 
