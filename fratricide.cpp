@@ -28,14 +28,14 @@ const double sdmu		= 0.2;		// standard deviation mutation size
 const int NumGen		= 25000;	// # generations
 const int Skip			= 10;		// interval for writing output
 
-const int IntroHelp     = 1000;       // generation after which mutation on help locus (and o and z3) is allowed
+const int IntroHelp     = 1000;       // generation after which mutation on help locus (and o and z5) is allowed
 
 
 struct Female // diploid genotype
 {
 	double z1[2]; // spring sex ratio (proportion sons)
-	double z2[2]; // summer sex ratio without helpers
-	double z3[2]; // summer sex ratio with helpers
+	double z3[2]; // summer sex ratio without helpers
+	double z5[2]; // summer sex ratio with helpers
 	double h[2];  // helping tendency of spring daughters
 	double o[2];  // probability to kill male egg
 	// NB: regardless of # helpers, all male eggs subjected to this ovicide probability
@@ -45,8 +45,8 @@ struct Female // diploid genotype
 struct Male // haploid genotype
 {
 	double z1;
-	double z2; 
-	double z3; //
+	double z3; 
+	double z5; //
 	double h;
 	double o;
 };
@@ -71,7 +71,7 @@ int NF1,NF2,NM1,NM2; // counters for arrays
 int Generation;          // generation counter
 int Seed; // RNG seed
 
-double means[5]; // z1 z2 z3 h o
+double means[5]; // z1 z3 z5 h o
 double sds[5]; // corresponding standard deviations
 double Q1[5];
 double Q3[5];
@@ -95,18 +95,18 @@ void Init()
 	{
 		F1[i].Q.z1[0]=0.5;
 		F1[i].Q.z1[1]=0.5;
-		F1[i].Q.z2[0]=0.5;
-		F1[i].Q.z2[1]=0.5;
 		F1[i].Q.z3[0]=0.5;
 		F1[i].Q.z3[1]=0.5;
+		F1[i].Q.z5[0]=0.5;
+		F1[i].Q.z5[1]=0.5;
 		F1[i].Q.h[0]=0;
 		F1[i].Q.h[1]=0;
 		F1[i].Q.o[0]=0;
 		F1[i].Q.o[1]=0;
 
 		F1[i].K.z1=0.5;
-		F1[i].K.z2=0.5;
 		F1[i].K.z3=0.5;
+		F1[i].K.z5=0.5;
 		F1[i].K.h=0;
 		F1[i].K.o=0;
 
@@ -134,8 +134,8 @@ void WriteDist()  // phenotype distribution among spring foundresses
 	{
 		fprintf(DistFile,"%10.3f%10.3f%10.3f%10.3f%10.3f\n",
 		0.5*(F1[i].Q.z1[0]+F1[i].Q.z1[1]),
-		0.5*(F1[i].Q.z2[0]+F1[i].Q.z2[1]),
 		0.5*(F1[i].Q.z3[0]+F1[i].Q.z3[1]),
+		0.5*(F1[i].Q.z5[0]+F1[i].Q.z5[1]),
 		0.5*(F1[i].Q.h[0]+F1[i].Q.h[1]),
 		0.5*(F1[i].Q.o[0]+F1[i].Q.o[1]));
 	}
@@ -152,7 +152,7 @@ void Mutate(double &g)
 void Statistics()
 {
 	int i;
-	double z1,z2,z3,h,o;
+	double z1,z3,z5,h,o;
 	double ss[5];
 	std::array<std::array<double, N>, 5> dist;
 
@@ -161,23 +161,23 @@ void Statistics()
 	for (i=0;i<N;i++)
 	{
 		z1=0.5*(F1[i].Q.z1[0]+F1[i].Q.z1[1]);
-		z2=0.5*(F1[i].Q.z2[0]+F1[i].Q.z2[1]);
 		z3=0.5*(F1[i].Q.z3[0]+F1[i].Q.z3[1]);
+		z5=0.5*(F1[i].Q.z5[0]+F1[i].Q.z5[1]);
 		h=0.5*(F1[i].Q.h[0]+F1[i].Q.h[1]);
 		o=0.5*(F1[i].Q.o[0]+F1[i].Q.o[1]);
 		means[0]+=z1;
 		dist[0][i] = z1;
-		means[1]+=z2;
-		dist[1][i] = z2;
-		means[2]+=z3;
-		dist[2][i] = z3;
+		means[1]+=z3;
+		dist[1][i] = z3;
+		means[2]+=z5;
+		dist[2][i] = z5;
 		means[3]+=h;
 		dist[3][i] = h;
 		means[4]+=o;
 		dist[4][i] = o;
 		ss[0]+=z1*z1;
-		ss[1]+=z2*z2;
-		ss[2]+=z3*z3;
+		ss[1]+=z3*z3;
+		ss[2]+=z5*z5;
 		ss[3]+=h*h;
 		ss[4]+=o*o;
 	}
@@ -199,7 +199,7 @@ void Statistics()
 void NextGeneration()
 {
 	int i,j,k;
-	double z1, z2, z3, h;
+	double z1, z3, z5, h;
 	Male Son;
 	Female Daughter;
 	int RF;
@@ -218,22 +218,22 @@ void NextGeneration()
 			if (ru()<z1) // it's a son
 			{
 				Son.z1=F1[i].Q.z1[rn(2)];
-				Son.z2=F1[i].Q.z2[rn(2)];
 				Son.z3=F1[i].Q.z3[rn(2)];
+				Son.z5=F1[i].Q.z5[rn(2)];
 				Son.h=F1[i].Q.h[rn(2)];
 				Son.o=F1[i].Q.o[rn(2)];
 
 				Mutate(Son.z1);
-				Mutate(Son.z2);
+				Mutate(Son.z3);
 				if (Generation>IntroHelp) 
 				{
-					Mutate(Son.z3);
+					Mutate(Son.z5);
 					Mutate(Son.h);
 					Mutate(Son.o);
 				}
 					else
 				{
-					Son.z3 = Son.z2;
+					Son.z5 = Son.z3;
 				}
 
 				
@@ -244,10 +244,10 @@ void NextGeneration()
 			{
 				Daughter.z1[0]=F1[i].Q.z1[rn(2)];
 				Daughter.z1[1]=F1[i].K.z1;
-				Daughter.z2[0]=F1[i].Q.z2[rn(2)];
-				Daughter.z2[1]=F1[i].K.z2;
 				Daughter.z3[0]=F1[i].Q.z3[rn(2)];
 				Daughter.z3[1]=F1[i].K.z3;
+				Daughter.z5[0]=F1[i].Q.z5[rn(2)];
+				Daughter.z5[1]=F1[i].K.z5;
 				Daughter.h[0]=F1[i].Q.h[rn(2)];
 				Daughter.h[1]=F1[i].K.h;
 				Daughter.o[0]=F1[i].Q.o[rn(2)];
@@ -256,16 +256,16 @@ void NextGeneration()
 				for (k=0;k<2;k++)
 				{
 					Mutate(Daughter.z1[k]);
-					Mutate(Daughter.z2[k]);
+					Mutate(Daughter.z3[k]);
 					if (Generation>IntroHelp) 
 					{
-						Mutate(Daughter.z3[k]);
+						Mutate(Daughter.z5[k]);
 						Mutate(Daughter.h[k]);
 						Mutate(Daughter.o[k]);
 					}
 						else
 					{
-						Daughter.z3[k] = Daughter.z2[k];
+						Daughter.z5[k] = Daughter.z3[k];
 					}
 
 				}
@@ -325,16 +325,16 @@ void NextGeneration()
 		for (j=0;j<FH;j++)
 		{
 	
-			if (F2[i].H==0) // no helpers. Use z2 as sex ratio
+			if (F2[i].H==0) // no helpers. Use z3 as sex ratio
 			{
-				Y=0.5*(F2[i].Q.z2[0]+F2[i].Q.z2[1]);
+				Y=0.5*(F2[i].Q.z3[0]+F2[i].Q.z3[1]);
 				Z=1;
 			}
-			else // helpers; use z3
+			else // helpers; use z5
 			{
-				z3=0.5*(F2[i].Q.z3[0]+F2[i].Q.z3[1]);
-				Y=z3*(1-EO+z3*phi*EO);
-				Z=1-z3*EO*(1-phi);
+				z5=0.5*(F2[i].Q.z5[0]+F2[i].Q.z5[1]);
+				Y=z5*(1-EO+z5*phi*EO);
+				Z=1-z5*EO*(1-phi);
 				// note that Y+Z<1 if EO>0
 				// that means that the # offspring is smaller when EO>0
 			}
@@ -343,22 +343,22 @@ void NextGeneration()
 			if (U<Y) // a son
 			{
 				Son.z1=F2[i].Q.z1[rn(2)];
-				Son.z2=F2[i].Q.z2[rn(2)];
 				Son.z3=F2[i].Q.z3[rn(2)];
+				Son.z5=F2[i].Q.z5[rn(2)];
 				Son.h=F2[i].Q.h[rn(2)];
 				Son.o=F2[i].Q.o[rn(2)];
 
 				Mutate(Son.z1);
-				Mutate(Son.z2);
+				Mutate(Son.z3);
 				if (Generation>IntroHelp) 
 				{
-					Mutate(Son.z3);
+					Mutate(Son.z5);
 					Mutate(Son.h);
 					Mutate(Son.o);
 				}
 				else
 				{
-					Son.z3 = Son.z2;
+					Son.z5 = Son.z3;
 				}
 				
 				M1[NM1]=Son;
@@ -368,10 +368,10 @@ void NextGeneration()
 			{
 				Daughter.z1[0]=F2[i].Q.z1[rn(2)];
 				Daughter.z1[1]=F2[i].K.z1;
-				Daughter.z2[0]=F2[i].Q.z2[rn(2)];
-				Daughter.z2[1]=F2[i].K.z2;
 				Daughter.z3[0]=F2[i].Q.z3[rn(2)];
 				Daughter.z3[1]=F2[i].K.z3;
+				Daughter.z5[0]=F2[i].Q.z5[rn(2)];
+				Daughter.z5[1]=F2[i].K.z5;
 				Daughter.h[0]=F2[i].Q.h[rn(2)];
 				Daughter.h[1]=F2[i].K.h;
 				Daughter.o[0]=F2[i].Q.o[rn(2)];
@@ -380,16 +380,16 @@ void NextGeneration()
 				for (k=0;k<2;k++)
 				{
 					Mutate(Daughter.z1[k]);
-					Mutate(Daughter.z2[k]);
+					Mutate(Daughter.z3[k]);
 					if (Generation>IntroHelp)
 					{
-						Mutate(Daughter.z3[k]);
+						Mutate(Daughter.z5[k]);
 						Mutate(Daughter.h[k]);
 						Mutate(Daughter.o[k]);
 					}
 					else
 					{
-						Daughter.z3[k] = Daughter.z2[k];
+						Daughter.z5[k] = Daughter.z3[k];
 					}
 				}
 				
