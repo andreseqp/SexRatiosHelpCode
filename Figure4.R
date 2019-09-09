@@ -4,7 +4,8 @@
 
 source("SelecDiff_Evol.R")
 
-png(filename = "fig5_col.png",width = 765,height = 630)
+png(filename = "fig4_col.png",width = 765,height = 630)
+
 
 # Plotting parameters 
 lty1<-c(1,2)

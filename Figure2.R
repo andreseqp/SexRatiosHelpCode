@@ -150,7 +150,7 @@ png("Figure_2_dynamics.png",width=1000,height=800)
   list1<-list1[grep('15',x=list1)]
   listEv<-list1[grep('evol',x = list1)]
   list.dist<-list1[grep('dist',x = list1)]
-  seed<-1
+  seed<-3
   Xs <- read.table(here('IBD',listEv[seed]))
   names(Xs) <- c("Gen","z1","z3","z5","h","om","sdz1","sdz3","sdz5","sdh","sdom",
                  "Q1z1","Q1z3","Q1z5","Q1h","Q1om",

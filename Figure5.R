@@ -4,8 +4,9 @@
 
 source("SelecDiff_Evol.R")
 
-png(filename = here(paste0(Sys.Date(),"fig6_col.png")),width = 765,
+png(filename = here(paste0(Sys.Date(),"fig5_col.png")),width = 765,
     height = 630)
+
 
 # Plotting parameters
 colors1<-c("#e41a1c","#377eb8", "#4daf4a", "#984ea3")

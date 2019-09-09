@@ -15,6 +15,8 @@ lty1<-c(1,2)
 
 png("Figure_3_col.png",width=1000,height=800)
 
+
+
 # Panel A ----------------------------------------------------------------------
 
 # Model parameters and initial conditions
@@ -132,3 +134,4 @@ text(x=par('usr')[1]+(par('usr')[2]-par('usr')[1])*0.1,
 
 
 dev.off()
+
